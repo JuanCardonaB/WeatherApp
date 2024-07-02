@@ -7,13 +7,18 @@ import {
   DefaultTheme,
 } from '@react-navigation/native';
 import {useColorScheme} from 'react-native';
+import {DataProvider} from './context/DataContext';
 
 const Stack = createStackNavigator();
 
 const AppStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen
+        options={{headerShown: false}}
+        name="Home"
+        component={Home}
+      />
     </Stack.Navigator>
   );
 };
@@ -22,9 +27,11 @@ const Router = () => {
   const currentTheme = useColorScheme();
   const theme = currentTheme === 'dark' ? DarkTheme : DefaultTheme;
   return (
-    <NavigationContainer theme={theme}>
-      <AppStack />
-    </NavigationContainer>
+    <DataProvider>
+      <NavigationContainer theme={theme}>
+        <AppStack />
+      </NavigationContainer>
+    </DataProvider>
   );
 };
 
