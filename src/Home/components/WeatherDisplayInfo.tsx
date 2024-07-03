@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
-import {WeatherData} from '../../Types/WeatherTypes';
-// import {ForecastDays} from './ForecastDays';
+import {DataContext} from '../../context/DataContext';
+import {ForecastDays} from './ForecastDays';
 
-export const WeatherDisplayInfo = ({data}: {data: WeatherData | null}) => {
+export const WeatherDisplayInfo = () => {
+  const datacontext = useContext(DataContext);
+  const {data, forecastData} = datacontext;
   return (
     <View>
       <View style={styles.generalInfo}>
@@ -45,7 +47,9 @@ export const WeatherDisplayInfo = ({data}: {data: WeatherData | null}) => {
       </View>
       <View style={styles.dailyForecastContainer}>
         <Text style={styles.dailyForecastTitle}>Daily Forecast</Text>
-        <ScrollView horizontal>{/* <ForecastDays /> */}</ScrollView>
+        <ScrollView horizontal>
+          <ForecastDays data={forecastData} />
+        </ScrollView>
       </View>
     </View>
   );

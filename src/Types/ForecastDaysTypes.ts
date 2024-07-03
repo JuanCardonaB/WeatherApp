@@ -126,7 +126,7 @@ interface ForecastDay {
   }[];
 }
 
-export interface ForecastDays {
+export interface ForecastDaysTypes {
   location: Location;
   current: CurrentWeather;
   forecast: {

@@ -13,4 +13,5 @@ export interface DataContextProps {
     HOME: string;
     SEARCH: string;
   };
+  forecastData: any;
 }
