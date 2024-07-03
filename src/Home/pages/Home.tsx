@@ -21,8 +21,8 @@ export const Home = () => {
   const datacontext = useContext(DataContext);
   const [currentView, setCurrentView] = useState(VIEWS.HOME);
 
-  const {data} = datacontext;
-  console.log(data);
+  const {data, setCity, setSearchValue, searchedCities, setSearchedCities} =
+    datacontext;
 
   const handleOpenSearchBar = () => {
     setCurrentView(VIEWS.SEARCH);
@@ -30,6 +30,12 @@ export const Home = () => {
 
   const handleOpenHome = () => {
     setCurrentView(VIEWS.HOME);
+  };
+
+  const changeCity = (city: string) => {
+    setCity(city);
+    setCurrentView(VIEWS.HOME);
+    setSearchedCities([]);
   };
 
   return (
@@ -52,7 +58,13 @@ export const Home = () => {
                 source={require('../../../public/search.png')}
               />
               {currentView === VIEWS.SEARCH && (
-                <TextInput placeholder="Search" style={{flex: 1}} />
+                <TextInput
+                  onChange={e => {
+                    setSearchValue(e.nativeEvent.text);
+                  }}
+                  placeholder="Search"
+                  style={{flex: 1}}
+                />
               )}
               {currentView === VIEWS.SEARCH && (
                 <Pressable onPress={handleOpenHome}>
@@ -60,6 +72,20 @@ export const Home = () => {
                 </Pressable>
               )}
             </Pressable>
+            {currentView === VIEWS.SEARCH && (
+              <View>
+                {searchedCities?.map((city, index) => {
+                  return (
+                    <Pressable
+                      onPress={() => changeCity(city.name)}
+                      style={styles.searchItem}
+                      key={index}>
+                      <Text>{`${city.name}, ${city.region}, ${city.country}`}</Text>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            )}
           </View>
           {currentView === VIEWS.HOME && (
             <View>
@@ -185,7 +211,6 @@ const styles = StyleSheet.create({
   },
   header: {
     display: 'flex',
-    alignItems: 'flex-end',
     paddingHorizontal: 20,
     paddingTop: 10,
   },
@@ -258,5 +283,11 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     marginRight: 10,
+  },
+  searchItem: {
+    backgroundColor: 'white',
+    padding: 10,
+    marginVertical: 5,
+    borderRadius: 10,
   },
 });

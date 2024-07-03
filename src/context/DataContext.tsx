@@ -1,5 +1,6 @@
 import React, {createContext, useState, ReactNode, useEffect} from 'react';
 import {getCityWeather} from '../API/getCityWeather';
+import {getLocations} from '../API/getLocations';
 
 interface WeatherCondition {
   text: string;
@@ -58,23 +59,50 @@ interface WeatherData {
 interface DataContextProps {
   data: WeatherData | null;
   setData: React.Dispatch<React.SetStateAction<null>>;
+  setCity: React.Dispatch<React.SetStateAction<string>>;
+  searchedCities: string[];
+  setSearchedCities: React.Dispatch<React.SetStateAction<string[]>>;
+  searchValue: string;
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const DataContext = createContext({} as DataContextProps);
 
 export const DataProvider = ({children}: {children: ReactNode}) => {
   const [data, setData] = useState(null);
+  const [city, setCity] = useState('Medellin');
+  const [searchedCities, setSearchedCities] = useState<string[]>([]);
+  const [searchValue, setSearchValue] = useState('');
 
   useEffect(() => {
     const fetchWeather = async () => {
-      const info = await getCityWeather('Oslo');
+      const info = await getCityWeather(city);
       setData(info);
     };
     fetchWeather();
-  }, []);
+  }, [city]);
+
+  useEffect(() => {
+    const fetchWeather = async () => {
+      const info = await getLocations(searchValue);
+      setSearchedCities(info);
+    };
+    if (searchValue) {
+      fetchWeather();
+    }
+  }, [searchValue]);
 
   return (
-    <DataContext.Provider value={{data, setData}}>
+    <DataContext.Provider
+      value={{
+        data,
+        setData,
+        setCity,
+        searchedCities,
+        setSearchedCities,
+        searchValue,
+        setSearchValue,
+      }}>
       {children}
     </DataContext.Provider>
   );
