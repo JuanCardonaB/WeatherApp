@@ -133,7 +133,7 @@ export const Home = () => {
                 </View>
               </View>
               <View style={styles.dailyForecastContainer}>
-                <Text>Daily Forecast</Text>
+                <Text style={styles.dailyForecastTitle}>Daily Forecast</Text>
                 <ScrollView horizontal>
                   <View style={styles.forecastItem}>
                     <Text>Monday</Text>
@@ -289,5 +289,11 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 5,
     borderRadius: 10,
+  },
+  dailyForecastTitle: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
 });
