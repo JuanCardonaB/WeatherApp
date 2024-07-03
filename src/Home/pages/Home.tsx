@@ -30,6 +30,7 @@ export const Home = () => {
 
   const handleOpenHome = () => {
     setCurrentView(VIEWS.HOME);
+    setSearchedCities([]);
   };
 
   const changeCity = (city: string) => {
@@ -74,16 +75,18 @@ export const Home = () => {
             </Pressable>
             {currentView === VIEWS.SEARCH && (
               <View>
-                {searchedCities?.map((city, index) => {
-                  return (
+                {searchedCities.length > 0 ? (
+                  searchedCities.map(city => (
                     <Pressable
                       onPress={() => changeCity(city.name)}
                       style={styles.searchItem}
-                      key={index}>
+                      key={city.id}>
                       <Text>{`${city.name}, ${city.region}, ${city.country}`}</Text>
                     </Pressable>
-                  );
-                })}
+                  ))
+                ) : (
+                  <Text>No results</Text>
+                )}
               </View>
             )}
           </View>

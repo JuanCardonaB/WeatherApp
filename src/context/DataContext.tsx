@@ -55,13 +55,22 @@ interface WeatherData {
   location: Location;
   current: CurrentWeather;
 }
+interface City {
+  id: number;
+  name: string;
+  region: string;
+  country: string;
+  lat: number;
+  lon: number;
+  url: string;
+}
 
 interface DataContextProps {
   data: WeatherData | null;
   setData: React.Dispatch<React.SetStateAction<null>>;
   setCity: React.Dispatch<React.SetStateAction<string>>;
-  searchedCities: string[];
-  setSearchedCities: React.Dispatch<React.SetStateAction<string[]>>;
+  searchedCities: City[];
+  setSearchedCities: React.Dispatch<React.SetStateAction<City[]>>;
   searchValue: string;
   setSearchValue: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -71,7 +80,7 @@ export const DataContext = createContext({} as DataContextProps);
 export const DataProvider = ({children}: {children: ReactNode}) => {
   const [data, setData] = useState(null);
   const [city, setCity] = useState('Medellin');
-  const [searchedCities, setSearchedCities] = useState<string[]>([]);
+  const [searchedCities, setSearchedCities] = useState<City[]>([]);
   const [searchValue, setSearchValue] = useState('');
 
   useEffect(() => {
