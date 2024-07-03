@@ -6,7 +6,7 @@ import {WeatherDisplayInfo} from '../components/WeatherDisplayInfo';
 
 export const Home = () => {
   const datacontext = useContext(DataContext);
-  const {data, VIEWS} = datacontext;
+  const {VIEWS} = datacontext;
   const [currentView, setCurrentView] = useState(VIEWS.HOME);
 
   return (
@@ -20,7 +20,7 @@ export const Home = () => {
             currentView={currentView}
             setCurrentView={setCurrentView}
           />
-          {currentView === VIEWS.HOME && <WeatherDisplayInfo data={data} />}
+          {currentView === VIEWS.HOME && <WeatherDisplayInfo />}
         </View>
       </SafeAreaView>
     </ImageBackground>

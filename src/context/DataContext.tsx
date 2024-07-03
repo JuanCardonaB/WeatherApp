@@ -3,6 +3,7 @@ import {getCityWeather} from '../API/getCityWeather';
 import {getLocations} from '../API/getLocations';
 import {CityType} from '../Types/CityTypes';
 import {DataContextProps} from '../Types/DataContextTypes';
+import {getForecastDays} from '../API/getForecastDays';
 
 const VIEWS = {
   HOME: 'HOME',
@@ -16,11 +17,14 @@ export const DataProvider = ({children}: {children: ReactNode}) => {
   const [city, setCity] = useState('Medellin');
   const [searchedCities, setSearchedCities] = useState<CityType[]>([]);
   const [searchValue, setSearchValue] = useState('');
+  const [forecastData, setForecastData] = useState(null);
 
   useEffect(() => {
     const fetchWeather = async () => {
-      const info = await getCityWeather(city);
-      setData(info);
+      const weatherData = await getCityWeather(city);
+      const forecastResponse = await getForecastDays(city);
+      setForecastData(forecastResponse);
+      setData(weatherData);
     };
     fetchWeather();
   }, [city]);
@@ -46,6 +50,7 @@ export const DataProvider = ({children}: {children: ReactNode}) => {
         searchValue,
         setSearchValue,
         VIEWS,
+        forecastData,
       }}>
       {children}
     </DataContext.Provider>
